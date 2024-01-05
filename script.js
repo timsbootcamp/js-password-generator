@@ -10,6 +10,7 @@ const msgPwdLengthNonNumericValidError = "Invalid input for Password Length.";
 const msgEnterLowercase = "Click OK to confirm including lowercase characters.";
 const msgEnterUppercase = "Click OK to confirm including uppercase characters.";
 const msgEnterNumeric = "Click OK to confirm including numeric characters.";
+const msgEnterSpecialChar = "Click OK to confirm including special char characters.";
 
 
 // Array of special characters to be included in password
@@ -174,6 +175,7 @@ function getPasswordOptions() {
 
  let allowNumeric = promptAllowMsg(msgEnterNumeric);
 
+ let allowSpecialChar = promptAllowMsg(msgEnterSpecialChar);
 
 }
 
