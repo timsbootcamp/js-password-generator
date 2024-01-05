@@ -169,14 +169,20 @@ function getPasswordOptions() {
     return;
   }
 
- let allowLowerCase = promptAllowMsg(msgEnterLowercase);
- 
- let allowUpperCase = promptAllowMsg(msgEnterUppercase);
+  let allowLowerCase = promptAllowMsg(msgEnterLowercase);
 
- let allowNumeric = promptAllowMsg(msgEnterNumeric);
+  let allowUpperCase = promptAllowMsg(msgEnterUppercase);
 
- let allowSpecialChar = promptAllowMsg(msgEnterSpecialChar);
+  let allowNumeric = promptAllowMsg(msgEnterNumeric);
 
+  let allowSpecialChar = promptAllowMsg(msgEnterSpecialChar);
+
+  return {
+    allowLowerCase: allowLowerCase,
+    allowUpperCase: allowUpperCase,
+    allowNumeric: allowNumeric,
+    allowSpecialChar: allowSpecialChar
+  }
 }
 
 // Function for getting a random element from an array
@@ -186,7 +192,7 @@ function getRandom(arr) {
 
 // Function to generate password with user input
 function generatePassword() {
-  getPasswordOptions();
+  let userSelectOpt=getPasswordOptions();
 }
 
 // Get references to the #generate element
