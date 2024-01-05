@@ -8,6 +8,7 @@ const msgPwdLengthValidError = "Length of Password entered is invalid.";
 const msgPwdLengthNonNumericValidError = "Invalid input for Password Length.";
 
 const msgEnterLowercase = "Click OK to confirm including lowercase characters.";
+const msgEnterUppercase = "Click OK to confirm including uppercase characters.";
 
 
 // Array of special characters to be included in password
@@ -167,7 +168,8 @@ function getPasswordOptions() {
   }
 
  let allowLowerCase = promptAllowMsg(msgEnterLowercase);
-
+ 
+ let allowUpperCase = promptAllowMsg(msgEnterUppercase);
 }
 
 // Function for getting a random element from an array
