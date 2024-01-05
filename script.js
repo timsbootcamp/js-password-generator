@@ -7,6 +7,7 @@ const msgPwdLengthValid = "It needs to be a numeric value at least 8 characters 
 const msgPwdLengthValidError = "Length of Password entered is invalid.";
 const msgPwdLengthNonNumericValidError = "Invalid input for Password Length.";
 
+const msgEnterLowercase = "Click OK to confirm including lowercase characters.";
 
 
 // Array of special characters to be included in password
@@ -140,6 +141,20 @@ function promptLengthPwd() {
 }
 
 
+function promptAllowMsg(msg) {
+
+  let userInput = prompt(msg);
+
+  if (userInput !== null) {
+    return true;
+  }  
+
+  return false;
+}
+
+
+
+
 // Function to prompt user for password options
 function getPasswordOptions() {
 
@@ -150,6 +165,8 @@ function getPasswordOptions() {
   if (cancelledByUser) {
     return;
   }
+
+ let allowLowerCase = promptAllowMsg(msgEnterLowercase);
 
 }
 
