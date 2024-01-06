@@ -116,7 +116,7 @@ var upperCasedCharacters = [
 // If user clicks on cancel then aborts prompt
 function promptLengthPwd() {
 
-  let pwdLength;
+  let pwdLength=0;
   let invalidNo = true;
 
   while (invalidNo) {
@@ -265,12 +265,20 @@ function InitialPassword() {
 // Function to generate password with user input
 function generatePassword() {
 
-  let userSelectOpt = getPasswordOptions();
-  let charTypesToInclude = CharTypesToIncludeIntoArray(userSelectOpt);
-  let pwd = "";
+  // Initialise
+  cancelledByUser = false;
 
   // Initialise Password to blank
   InitialPassword();
+
+  let userSelectOpt = getPasswordOptions();
+   
+  if (cancelledByUser) {
+    return false;
+  }
+
+  let charTypesToInclude = CharTypesToIncludeIntoArray(userSelectOpt);
+  let pwd = "";
 
   // If user has not selected any char types to include in password generation
   // then display validation error message
@@ -285,13 +293,13 @@ function generatePassword() {
       let charType = getRandom(charTypesToInclude);
       pwd = pwd + LookupCharTypeToGetRandomChar(charType);
     }
-  }
-
-  // Finally we shall make sure there is one character for each type from the 'charTypestoInclude' array.
-  // This is done by parsing through 'charTypesToInclude' array and get random char for that type.
-  for (let i = 0; i < charTypesToInclude.length; i++) {
-    let charType = charTypesToInclude[i];
-    pwd = pwd + LookupCharTypeToGetRandomChar(charType);
+  
+    // Finally we shall make sure there is one character for each type from the 'charTypestoInclude' array.
+    // This is done by parsing through 'charTypesToInclude' array and get random char for that type.
+    for (let i = 0; i < charTypesToInclude.length; i++) {
+      let charType = charTypesToInclude[i];
+      pwd = pwd + LookupCharTypeToGetRandomChar(charType);
+    }
   }
 
   return pwd;
@@ -303,9 +311,11 @@ var generateBtn = document.querySelector('#generate');
 // Write password to the #password input
 function writePassword() {
   var password = generatePassword();
-  var passwordText = document.querySelector('#password');
-
-  passwordText.value = password;
+  if (password.length>0)
+  {
+    var passwordText = document.querySelector('#password');
+    passwordText.value = password; 
+  }
 }
 
 // Add event listener to generate button
