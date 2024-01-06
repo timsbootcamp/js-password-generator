@@ -2,6 +2,13 @@ let cancelledByUser = false;
 
 const numericRegex = /^[0-9]+$/;
 
+const charTypeLowerCase = "LOWERCASE";
+const charTypeUpperCase = "UPPERCASE";
+const charTypeNumeric = "NUMERIC";
+const charTypeSpecialChar = "SPECIALCHAR";
+
+
+
 const msgEnterPwdLength  = "How many characters (8 to 128) would you like your password to contain ?"
 const msgPwdLengthValid = "It needs to be a numeric value at least 8 characters and up to 128 characters.";
 const msgPwdLengthValidError = "Length of Password entered is invalid.";
@@ -187,33 +194,32 @@ function getPasswordOptions() {
 }
 
 
-function identifyNoCharTypesToInclude(userSelectOpt) {
+function CharTypesToIncludeIntoArray(userSelectOpt) {
 
-  let noCharTypesToInclude = 0;
+  let charTypesToInclude = [];
 
   if (userSelectOpt.allowLowerCase)  
   {
-    noCharTypesToInclude=noCharTypesToInclude+1;
+    charTypesToInclude.push(charTypeLowerCase);
   }
 
   if (userSelectOpt.allowUpperCase)  
   {
-    noCharTypesToInclude=noCharTypesToInclude+1;
+    charTypesToInclude.push(charTypeUpperCase);
   }
 
   if (userSelectOpt.allowNumeric)  
   {
-    noCharTypesToInclude=noCharTypesToInclude+1;
+    charTypesToInclude.push(charTypeNumeric);
   }
 
   if (userSelectOpt.allowSpecialChar)  
   {
-    noCharTypesToInclude=noCharTypesToInclude+1;
+    charTypesToInclude.push(charTypeSpecialChar);
   }
 
-  return noCharTypesToInclude
+  return charTypesToInclude
 }
-
 
 // Function for getting a random element from an array
 function getRandom(arr) {
@@ -223,11 +229,13 @@ function getRandom(arr) {
 // Function to generate password with user input
 function generatePassword() {
   let userSelectOpt=getPasswordOptions();
-  let noCharTypesToInclude = identifyNoCharTypesToInclude(userSelectOpt);
 
-  if (noCharTypesToInclude ===0) {
+  let charTypesToInclude = CharTypesToIncludeIntoArray(userSelectOpt); 
+
+  if (charTypesToInclude.length === 0) {
     alert(msgNoUserOptionSelectedValidError);
   }
+  
 }
 
 // Get references to the #generate element
