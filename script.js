@@ -1,25 +1,35 @@
 let cancelledByUser = false;
 
+// Constant for numeric only regular expression
 const numericRegex = /^[0-9]+$/;
 
+// Constant types for character types
 const charTypeLowerCase = "LOWERCASE";
 const charTypeUpperCase = "UPPERCASE";
 const charTypeNumeric = "NUMERIC";
 const charTypeSpecialChar = "SPECIALCHAR";
 
 
-
+// Constants for Password Length data entry
 const msgEnterPwdLength = "How many characters (8 to 128) would you like your password to contain ?"
 const msgPwdLengthValid = "It needs to be a numeric value at least 8 characters and up to 128 characters.";
 const msgPwdLengthValidError = "Length of Password entered is invalid.";
 const msgPwdLengthNonNumericValidError = "Invalid input for Password Length.";
 
+const pwdLengthMin = 8;
+const pwdLengthMax = 128;
+
+
+
+// Constants for Character types data entry
 const msgEnterLowercase = "Click OK to confirm including lowercase characters.";
 const msgEnterUppercase = "Click OK to confirm including uppercase characters.";
 const msgEnterNumeric = "Click OK to confirm including numeric characters.";
 const msgEnterSpecialChar = "Click OK to confirm including special char characters.";
 
+// Constant for error message if no user option selected
 const msgNoUserOptionSelectedValidError = "Unable to generate password as no user options selected. Please try again by clicking on 'Generate Password'."
+
 
 // Array of special characters to be included in password
 var specialCharacters = [
@@ -119,30 +129,40 @@ function promptLengthPwd() {
   let pwdLength=0;
   let invalidNo = true;
 
+  // Repetition of loop until user enters valid number or clicks cancel
   while (invalidNo) {
 
+    // Prompt user to enter password length
     let userInput = prompt(msgEnterPwdLength);
 
+    // Detect if user has selected cancel
     if (userInput === null) {
       alert("Cancelled by user");
       cancelledByUser = true;
       break;
     }
 
+    // Test input with numeric regular expression
     if (numericRegex.test(userInput)) {
 
+      // Convert input to integer  
       pwdLength = parseInt(userInput);
-      if (pwdLength >= 8 && pwdLength <= 128) {
+      
+      // Ensure password length is within min and max range
+      if (pwdLength >= pwdLengthMin && pwdLength <= pwdLengthMax) {
+        // Password length is acceptable
         invalidNo = false;
       }
       else {
+        // Display message that password length entered is invalid
         alert(msgPwdLengthValidError + ' ' + msgPwdLengthValid + " Please try again.");
         continue;
       }
     }
     else {
-      alert(msgPwdLengthNonNumericValidError + ' ' + msgPwdLengthValid);
-      continue;
+        // Display message that password length entered is non-numeric
+        alert(msgPwdLengthNonNumericValidError + ' ' + msgPwdLengthValid);
+        continue;
     }
   }
 
@@ -150,6 +170,7 @@ function promptLengthPwd() {
 }
 
 
+// Function that prompts user for password criteria ie. various char types 
 function promptAllowMsg(msg) {
 
   let userInput = prompt(msg);
@@ -181,6 +202,7 @@ function getPasswordOptions() {
 
   let allowSpecialChar = promptAllowMsg(msgEnterSpecialChar);
 
+  // return data as object
   return {
     pwdLength: pwdLength,
     allowLowerCase: allowLowerCase,
@@ -191,6 +213,7 @@ function getPasswordOptions() {
 }
 
 
+// Parse parameter object and add to array char types user selected to include 
 function CharTypesToIncludeIntoArray(userSelectOpt) {
 
   let charTypesToInclude = [];
