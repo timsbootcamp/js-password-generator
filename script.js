@@ -186,6 +186,7 @@ function getPasswordOptions() {
   let allowSpecialChar = promptAllowMsg(msgEnterSpecialChar);
 
   return {
+    pwdLength: pwdLength,
     allowLowerCase: allowLowerCase,
     allowUpperCase: allowUpperCase,
     allowNumeric: allowNumeric,
@@ -235,7 +236,6 @@ function generatePassword() {
   if (charTypesToInclude.length === 0) {
     alert(msgNoUserOptionSelectedValidError);
   }
-  
 }
 
 // Get references to the #generate element
