@@ -1,4 +1,4 @@
-let cancelledByUser = false; 
+let cancelledByUser = false;
 
 const numericRegex = /^[0-9]+$/;
 
@@ -9,7 +9,7 @@ const charTypeSpecialChar = "SPECIALCHAR";
 
 
 
-const msgEnterPwdLength  = "How many characters (8 to 128) would you like your password to contain ?"
+const msgEnterPwdLength = "How many characters (8 to 128) would you like your password to contain ?"
 const msgPwdLengthValid = "It needs to be a numeric value at least 8 characters and up to 128 characters.";
 const msgPwdLengthValidError = "Length of Password entered is invalid.";
 const msgPwdLengthNonNumericValidError = "Invalid input for Password Length.";
@@ -119,25 +119,23 @@ function promptLengthPwd() {
   let pwdLength;
   let invalidNo = true;
 
-  while (invalidNo) { 
+  while (invalidNo) {
 
     let userInput = prompt(msgEnterPwdLength);
 
     if (userInput === null) {
       alert("Cancelled by user");
-      cancelledByUser=true;
+      cancelledByUser = true;
       break;
     }
 
     if (numericRegex.test(userInput)) {
-      
+
       pwdLength = parseInt(userInput);
-      if (pwdLength >=8 && pwdLength <=128)
-      {
+      if (pwdLength >= 8 && pwdLength <= 128) {
         invalidNo = false;
       }
-      else 
-      {
+      else {
         alert(msgPwdLengthValidError + ' ' + msgPwdLengthValid + " Please try again.");
         continue;
       }
@@ -158,12 +156,10 @@ function promptAllowMsg(msg) {
 
   if (userInput !== null) {
     return true;
-  }  
+  }
 
   return false;
 }
-
-
 
 
 // Function to prompt user for password options
@@ -199,23 +195,19 @@ function CharTypesToIncludeIntoArray(userSelectOpt) {
 
   let charTypesToInclude = [];
 
-  if (userSelectOpt.allowLowerCase)  
-  {
+  if (userSelectOpt.allowLowerCase) {
     charTypesToInclude.push(charTypeLowerCase);
   }
 
-  if (userSelectOpt.allowUpperCase)  
-  {
+  if (userSelectOpt.allowUpperCase) {
     charTypesToInclude.push(charTypeUpperCase);
   }
 
-  if (userSelectOpt.allowNumeric)  
-  {
+  if (userSelectOpt.allowNumeric) {
     charTypesToInclude.push(charTypeNumeric);
   }
 
-  if (userSelectOpt.allowSpecialChar)  
-  {
+  if (userSelectOpt.allowSpecialChar) {
     charTypesToInclude.push(charTypeSpecialChar);
   }
 
@@ -225,17 +217,84 @@ function CharTypesToIncludeIntoArray(userSelectOpt) {
 // Function for getting a random element from an array
 function getRandom(arr) {
 
+  if (arr.length === 0) {
+    return undefined; // Return undefined for an empty array
+  }
+
+  const randomIndex = Math.floor(Math.random() * arr.length);
+  return arr[randomIndex];
 }
+
+
+// Look up char type and then get random char from that array
+function LookupCharTypeToGetRandomChar(charType) {
+
+  let randomChar = "";
+
+  switch (charType) {
+
+    case charTypeLowerCase:
+      randomChar = getRandom(lowerCasedCharacters);
+      break;
+
+    case charTypeUpperCase:
+      randomChar = getRandom(upperCasedCharacters);
+      break;
+
+    case charTypeNumeric:
+      randomChar = getRandom(numericCharacters);
+      break;
+
+    case charTypeSpecialChar:
+      randomChar = getRandom(specialCharacters);
+      break;
+  }
+
+  return randomChar;
+}
+
+
+// Initial password to blank - this works best when user decides to generate password 
+// again and then cancels or validation fails so it then resets password to blank
+function InitialPassword() {
+  var passwordText = document.querySelector('#password');
+  passwordText.value = "";
+}
+
 
 // Function to generate password with user input
 function generatePassword() {
-  let userSelectOpt=getPasswordOptions();
 
-  let charTypesToInclude = CharTypesToIncludeIntoArray(userSelectOpt); 
+  let userSelectOpt = getPasswordOptions();
+  let charTypesToInclude = CharTypesToIncludeIntoArray(userSelectOpt);
+  let pwd = "";
 
+  // Initialise Password to blank
+  InitialPassword();
+
+  // If user has not selected any char types to include in password generation
+  // then display validation error message
   if (charTypesToInclude.length === 0) {
     alert(msgNoUserOptionSelectedValidError);
   }
+  else {
+
+    // Get random char type from 'charTypesToInclude' array 
+    // then get random char for that type and build pwd string
+    for (let i = 1; i <= (userSelectOpt.pwdLength - charTypesToInclude.length); i++) {
+      let charType = getRandom(charTypesToInclude);
+      pwd = pwd + LookupCharTypeToGetRandomChar(charType);
+    }
+  }
+
+  // Finally we shall make sure there is one character for each type from the 'charTypestoInclude' array.
+  // This is done by parsing through 'charTypesToInclude' array and get random char for that type.
+  for (let i = 0; i < charTypesToInclude.length; i++) {
+    let charType = charTypesToInclude[i];
+    pwd = pwd + LookupCharTypeToGetRandomChar(charType);
+  }
+
+  return pwd;
 }
 
 // Get references to the #generate element
@@ -251,3 +310,4 @@ function writePassword() {
 
 // Add event listener to generate button
 generateBtn.addEventListener('click', writePassword);
+
