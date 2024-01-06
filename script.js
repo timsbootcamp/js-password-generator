@@ -12,6 +12,7 @@ const msgEnterUppercase = "Click OK to confirm including uppercase characters.";
 const msgEnterNumeric = "Click OK to confirm including numeric characters.";
 const msgEnterSpecialChar = "Click OK to confirm including special char characters.";
 
+const msgNoUserOptionSelectedValidError = "Unable to generate password as no user options selected. Please try again by clicking on 'Generate Password'."
 
 // Array of special characters to be included in password
 var specialCharacters = [
@@ -185,6 +186,35 @@ function getPasswordOptions() {
   }
 }
 
+
+function identifyNoCharTypesToInclude(userSelectOpt) {
+
+  let noCharTypesToInclude = 0;
+
+  if (userSelectOpt.allowLowerCase)  
+  {
+    noCharTypesToInclude=noCharTypesToInclude+1;
+  }
+
+  if (userSelectOpt.allowUpperCase)  
+  {
+    noCharTypesToInclude=noCharTypesToInclude+1;
+  }
+
+  if (userSelectOpt.allowNumeric)  
+  {
+    noCharTypesToInclude=noCharTypesToInclude+1;
+  }
+
+  if (userSelectOpt.allowSpecialChar)  
+  {
+    noCharTypesToInclude=noCharTypesToInclude+1;
+  }
+
+  return noCharTypesToInclude
+}
+
+
 // Function for getting a random element from an array
 function getRandom(arr) {
 
@@ -193,6 +223,11 @@ function getRandom(arr) {
 // Function to generate password with user input
 function generatePassword() {
   let userSelectOpt=getPasswordOptions();
+  let noCharTypesToInclude = identifyNoCharTypesToInclude(userSelectOpt);
+
+  if (noCharTypesToInclude ===0) {
+    alert(msgNoUserOptionSelectedValidError);
+  }
 }
 
 // Get references to the #generate element
